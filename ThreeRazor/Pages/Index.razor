@@ -1,0 +1,51 @@
+﻿@page "/"
+
+
+@inject IDepartmentService departmentService
+
+@if (departments == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-10">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Employee Count</th>
+                        <th>Operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var department in departments)
+                    {
+                        <DepartmentItem department="@department"></DepartmentItem>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <a href="/add-department">Add</a>
+        </div>
+    </div>
+}
+
+
+
+@code
+{
+    IEnumerable<Department> departments;
+
+    protected override async Task OnInitializedAsync()
+    {
+        departments = await departmentService.GetAll();
+    }
+
+}

@@ -1,0 +1,58 @@
+﻿@page "/add-department"
+@using Microsoft.AspNetCore.Mvc.Routing
+
+@inject IDepartmentService departmentService
+@inject NavigationManager navigationManager
+
+
+<EditForm Model="@_department" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="row form-group">
+        <div class="col-md-2 offset-md-2">
+            <label for="name">Name</label>
+        </div>
+        <div class="col-md-6">
+            <InputText id="name" class="form-control" @bind-Value="_department.Name" />
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-md-2 offset-md-2">
+            <label for="location">Location</label>
+        </div>
+
+        <div class="col-md-6">
+            <InputText id="location" class="form-control" @bind-Value="_department.Location"/>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-md-2 offset-md-2">
+            <label for="employeeCount">Employee Count</label>
+        </div>
+
+        <div class="col-md-6">
+            <InputNumber id="employeeCount" class="form-control" @bind-Value="_department.EmployeeCount"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-outline-success">Add</button>
+        </div>
+    </div>
+
+
+</EditForm>
+
+@code
+{
+    private  readonly Department _department=new Department();
+
+    private async Task HandleValidSubmit()
+    {
+        await departmentService.Add(_department);
+        navigationManager.NavigateTo("/");
+    }
+}
